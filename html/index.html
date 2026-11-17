@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#2a1a5e">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Roll A Planet</title>
+<link rel="icon" href="img/icons/smiley.webp">
+<link rel="preload" href="vendor/fonts/LilitaOne-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/game.css">
+<link rel="modulepreload" href="js/main.047055aac2.js">
+<link rel="preload" href="js/rapier.b12026183f.wasm" as="fetch" type="application/wasm" crossorigin>
+</head>
+<body data-lb="off">
+<div id="app">
+  <div id="lobbyBg" class="hidden"></div>
+  <canvas id="game"></canvas>
+  <div id="touch"></div>
+
+  <!-- lobby -->
+  <div id="lobby" class="screen hidden">
+    <div id="heroTip" class="hidden"></div>
+    <div class="topbar">
+      <button class="btn cap t t-thin" id="heartBtn"><i class="plus">+</i><img src="img/icons/heart.webp" alt=""><span id="heartTxt">5</span><small class="t-thin" id="heartSub">FULL</small></button>
+      <button class="btn cap coins t t-thin" id="coinPill"><i class="plus">+</i><img src="img/icons/coin.webp" alt=""><span id="coinTxt">0</span></button>
+      <button class="btn gear" id="gearBtn"><img src="img/icons/gear.webp" alt=""></button>
+    </div>
+    <button class="btn chestbar" id="chestBar"><img class="star" src="img/icons/star.webp" alt=""><span class="t t-thin" id="chestTxt">0/6</span><span class="track"><span class="fill" id="chestFill"></span></span><img class="chest" src="img/icons/chest.webp" alt=""></button>
+    <div class="side left">
+      <button class="btn sbtn" id="dailyBtn"><span class="disc"><img src="img/icons/daily.webp" alt=""></span><span class="lbl t t-thin">Daily</span><span class="dot t-thin hidden" id="dailyDot">!</span></button>
+      <button class="btn sbtn" id="giftBtn"><span class="disc"><img src="img/icons/gift.webp" alt=""></span><span class="lbl t t-thin">Free</span><span class="badge t-thin" id="giftBadge">Free</span></button>
+    </div>
+    <div class="side right">
+      <button class="btn sbtn" id="eventBtn"><span class="disc"><img src="img/icons/star.webp" alt=""></span><span class="lbl t t-thin">Event</span><span class="badge t-thin" id="eventBadge">3d</span></button>
+      <button class="btn sbtn" id="skinsBtn"><span class="disc"><img src="img/icons/smiley.webp" alt=""></span><span class="lbl t t-thin">Skins</span></button>
+    </div>
+    <button class="btn btn-yellow t" id="playBtn">Level 1</button>
+    <nav class="nav">
+      <button class="btn tab t t-thin" data-tab="shop"><img src="img/icons/bag.webp" alt="">Shop</button>
+      <button class="btn tab t t-thin" data-tab="album"><img src="img/icons/album.webp" alt="">Album</button>
+      <button class="btn tab t t-thin on" data-tab="home"><img src="img/icons/home.webp" alt="">Home</button>
+      <button class="btn tab t t-thin locked" data-tab="team"><img src="img/icons/crown.webp" alt=""><img class="lock" src="img/icons/lock.webp" alt="">Team</button>
+      <button class="btn tab t t-thin locked" data-tab="ranks"><img src="img/icons/trophy.webp" alt=""><img class="lock" src="img/icons/lock.webp" alt="">Ranks</button>
+    </nav>
+  </div>
+
+  <!-- in level -->
+  <div id="hud" class="screen hidden">
+    <div class="lvl t t-thin" id="hudLevel">LEVEL 1</div>
+    <div id="goals"></div>
+    <div id="timer" class="t"><img src="img/icons/clock.webp" alt=""><span id="timerTxt">2:00</span></div>
+    <button class="btn btn-blue round" id="pauseBtn"><i></i></button>
+    <div id="sizeBadge">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="rgba(30,18,80,.75)" stroke="#2a1a5e" stroke-width="6"/><circle id="sizeRing" cx="50" cy="50" r="40" fill="none" stroke="#7dff6a" stroke-width="9" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3"/></svg>
+      <div class="face"></div>
+      <div class="lbl t" id="sizeTxt">SIZE 1</div>
+    </div>
+    <div id="boosters"></div>
+    <div id="arrow" class="hidden"></div>
+    <div id="stick" class="hidden"><i></i></div>
+  </div>
+
+  <div id="fx"></div>
+  <div id="sheetHost"></div>
+  <div id="intro" class="screen hidden"></div>
+  <div id="win" class="screen hidden"></div>
+  <div id="modalHost"></div>
+  <div id="curtain"></div>
+  <div id="overlayHost"></div>
+
+  <!-- loading -->
+  <div id="loading" class="screen">
+    <img class="logo" src="img/logo.webp" alt="Roll A Planet">
+    <img class="mascot" src="img/hero-stand.webp" alt="">
+    <div class="tip t t-thin" id="loadTip">Roll over small things to grow!</div>
+    <div class="bar"><i id="loadBar"></i></div>
+    <div class="pct t t-thin" id="loadPct">0%</div>
+  </div>
+</div>
+<script type="module" src="js/main.047055aac2.js"></script>
+</body>
+</html>
