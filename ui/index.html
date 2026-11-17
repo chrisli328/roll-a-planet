@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roll A Planet: every UI screen</title>
+<style>
+  :root { --ink: #2a1a5e; --bg: #f4f1ff; --card: #fff; --muted: #6b6390; --accent: #6a3ae0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+  header { padding: 28px 20px 12px; max-width: 1400px; margin: 0 auto; }
+  h1 { margin: 0 0 6px; font-size: 26px; }
+  .lead { margin: 0 0 6px; max-width: 760px; }
+  .meta { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+  .btn { display: inline-block; padding: 9px 16px; border-radius: 10px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; }
+  .btn.ghost { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+  .bar { position: sticky; top: 0; z-index: 5; background: rgba(244,241,255,.95); backdrop-filter: blur(6px); border-bottom: 1px solid #ddd6f5; }
+  .bar > div { max-width: 1400px; margin: 0 auto; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+  .bar nav { display: flex; flex-wrap: wrap; gap: 6px; }
+  .bar nav a { padding: 5px 11px; border-radius: 999px; background: #fff; color: var(--ink); text-decoration: none; font-size: 13px; border: 1px solid #ddd6f5; }
+  .seg { display: inline-flex; border: 2px solid var(--accent); border-radius: 10px; overflow: hidden; margin-left: auto; }
+  .seg button { border: 0; padding: 6px 14px; font: inherit; font-weight: 600; background: #fff; color: var(--accent); cursor: pointer; }
+  .seg button.on { background: var(--accent); color: #fff; }
+  main { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px; }
+  h2 { margin: 28px 0 12px; font-size: 20px; scroll-margin-top: 70px; }
+  section { scroll-margin-top: 60px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+  body.desktop .grid { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
+  .card { margin: 0; background: var(--card); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(42,26,94,.08); display: flex; flex-direction: column; }
+  .pic { display: block; background: #1d1440; }
+  .pic img { display: block; width: 100%; aspect-ratio: 390 / 844; object-fit: contain; }
+  body.desktop .pic img { aspect-ratio: 1280 / 800; }
+  figcaption { padding: 10px 12px 12px; }
+  h3 { margin: 0 0 4px; font-size: 16px; display: flex; gap: 8px; align-items: baseline; }
+  .num { flex: none; min-width: 24px; padding: 0 6px; border-radius: 6px; background: #ece6ff; color: var(--accent); font-size: 12px; text-align: center; }
+  figcaption p { margin: 0 0 6px; }
+  .dev { color: var(--muted); font-size: 12px; }
+  code { font: 12px ui-monospace, Menlo, monospace; background: #f1eefb; padding: 1px 4px; border-radius: 4px; }
+  footer { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px; color: var(--muted); font-size: 13px; }
+  #view { position: fixed; inset: 0; z-index: 10; background: rgba(15,8,45,.92); display: none; align-items: center; justify-content: center; padding: 16px; cursor: zoom-out; }
+  #view.on { display: flex; }
+  #view img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } body.desktop .grid { grid-template-columns: 1fr; } .dev { display: none; }
+    .bar > div { flex-wrap: nowrap; padding: 8px 12px; gap: 8px; }
+    .bar nav { flex-wrap: nowrap; overflow-x: auto; min-width: 0; flex: 1; scrollbar-width: none; }
+    .bar nav a { white-space: nowrap; }
+    .seg button { padding: 5px 9px; font-size: 13px; }
+    header { padding: 20px 14px 8px; } main { padding: 0 12px 32px; } h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Roll A Planet: every UI screen</h1>
+  <p class="lead">Every screen and popup in the current Unity build, captured from the game itself on a phone (390 x 844) and in a desktop browser window (1280 x 800). Rebuild this page after any UI change with tools/ui-pages/make.sh.</p>
+  <p class="meta">38 screens, from Unity project commit de3e819 (2026-11-18). Page made 2026-11-18 05:12.</p>
+  <div class="links"><a class="btn" href="../">Play the latest build</a><a class="btn ghost" href="../html/">Original HTML prototype</a></div>
+</header>
+<div class="bar"><div>
+  <nav><a href="#g0">First launch</a><a href="#g1">Home</a><a href="#g2">Before a level</a><a href="#g3">Playing</a><a href="#g4">End of a level</a><a href="#g5">Home popups</a><a href="#g6">Pages (bottom bar)</a></nav>
+  <div class="seg" role="group" aria-label="Device">
+    <button type="button" class="on" data-dev="phone">Phone</button>
+    <button type="button" data-dev="desktop">Desktop</button>
+  </div>
+</div></div>
+<main>
+    <section id="g0">
+      <h2>First launch</h2>
+      <div class="grid">
+      <figure class="card" id="loading">
+        <a class="pic" href="img/phone/loading.webp" data-shot="loading"><img loading="lazy" src="img/phone/loading.webp" alt="Loading"></a>
+        <figcaption>
+          <h3><span class="num">1</span>Loading</h3>
+          <p>Every start. The tip line under the hero is one of four, picked at random.</p>
+          <p class="dev">Capture <code>loading</code><br>Code <code>App/App.cs Boot</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="tut">
+        <a class="pic" href="img/phone/tut.webp" data-shot="tut"><img loading="lazy" src="img/phone/tut.webp" alt="Level 1 drag tutorial"></a>
+        <figcaption>
+          <h3><span class="num">2</span>Level 1 drag tutorial</h3>
+          <p>A new player goes straight into Level 1; the hand shows how to drag the ball until they roll it.</p>
+          <p class="dev">Capture <code>tut</code><br>Code <code>App/App.Tutorial.cs StartTutorial</code></p>
+        </figcaption>
+      </figure>
+      </div>
+    </section>
+    <section id="g1">
+      <h2>Home</h2>
+      <div class="grid">
+      <figure class="card" id="lobby">
+        <a class="pic" href="img/phone/lobby.webp" data-shot="lobby"><img loading="lazy" src="img/phone/lobby.webp" alt="Home (stage scene)"></a>
+        <figcaption>
+          <h3><span class="num">3</span>Home (stage scene)</h3>
+          <p>Home at Level 1. Top: lives, coins, settings, star chest bar. Sides: Daily, Free, Event, Skins. Bottom bar: Shop, Album, Home, Team (unlocks at Level 15), Ranks (unlocks at Level 10).</p>
+          <p class="dev">Capture <code>lobby</code><br>Code <code>App/App.Lobby.cs BuildLobby</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="lobby3">
+        <a class="pic" href="img/phone/lobby3.webp" data-shot="lobby3"><img loading="lazy" src="img/phone/lobby3.webp" alt="Home at Level 3"></a>
+        <figcaption>
+          <h3><span class="num">4</span>Home at Level 3</h3>
+          <p>The ball keeps the items picked up in earlier levels.</p>
+          <p class="dev">Capture <code>lobby3</code><br>Code <code>Lobby/Lobby3D.cs</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="planet">
+        <a class="pic" href="img/phone/planet.webp" data-shot="planet"><img loading="lazy" src="img/phone/planet.webp" alt="Home (planet scene)"></a>
+        <figcaption>
+          <h3><span class="num">5</span>Home (planet scene)</h3>
+          <p>Settings &gt; Home scene &gt; Planet.</p>
+          <p class="dev">Capture <code>planet</code><br>Code <code>Lobby/Lobby3D.cs</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="dive">
+        <a class="pic" href="img/phone/dive.webp" data-shot="dive"><img loading="lazy" src="img/phone/dive.webp" alt="Going into a level"></a>
+        <figcaption>
+          <h3><span class="num">6</span>Going into a level</h3>
+          <p>After Play: the camera dives into the ball while the level loads.</p>
+          <p class="dev">Capture <code>dive</code><br>Code <code>Lobby/Lobby3D.cs Dive</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="reward">
+        <a class="pic" href="img/phone/reward.webp" data-shot="reward"><img loading="lazy" src="img/phone/reward.webp" alt="Back home after a win"></a>
+        <figcaption>
+          <h3><span class="num">7</span>Back home after a win</h3>
+          <p>After Claim on Level Complete: home shows the next level, then the coins and stars won fly into their counters.</p>
+          <p class="dev">Capture <code>reward</code><br>Code <code>App/App.Lobby.cs GoLobby</code></p>
+        </figcaption>
+      </figure>
+      </div>
+    </section>
+    <section id="g2">
+      <h2>Before a level</h2>
+      <div class="grid">
+      <figure class="card" id="pre">
+        <a class="pic" href="img/phone/pre.webp" data-shot="pre"><img loading="lazy" src="img/phone/pre.webp" alt="Pre-level popup"></a>
+        <figcaption>
+          <h3><span class="num">8</span>Pre-level popup</h3>
+          <p>Play from Level 2 on. Goals, the timer, and the pre-level boosters (Big Start from Level 5, Speed from Level 6).</p>
+          <p class="dev">Capture <code>pre</code><br>Code <code>App/App.Level.cs OpenPreLevel</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="prebuy">
+        <a class="pic" href="img/phone/prebuy.webp" data-shot="prebuy"><img loading="lazy" src="img/phone/prebuy.webp" alt="Buy a pre-level booster"></a>
+        <figcaption>
+          <h3><span class="num">9</span>Buy a pre-level booster</h3>
+          <p>Pre-level popup, tap a booster you have none of: one for 120 coins.</p>
+          <p class="dev">Capture <code>prebuy</code><br>Code <code>App/App.Level.cs OpenPreBuy</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="intro">
+        <a class="pic" href="img/phone/intro.webp" data-shot="intro"><img loading="lazy" src="img/phone/intro.webp" alt="Level card"></a>
+        <figcaption>
+          <h3><span class="num">10</span>Level card</h3>
+          <p>Shows the goals as a level starts; it leaves on a tap or after 2.4 s.</p>
+          <p class="dev">Capture <code>intro</code><br>Code <code>App/App.Level.cs ShowIntro</code></p>
+        </figcaption>
+      </figure>
+      </div>
+    </section>
+    <section id="g3">
+      <h2>Playing</h2>
+      <div class="grid">
+      <figure class="card" id="play">
+        <a class="pic" href="img/phone/play.webp" data-shot="play"><img loading="lazy" src="img/phone/play.webp" alt="Level 1 in play"></a>
+        <figcaption>
+          <h3><span class="num">11</span>Level 1 in play</h3>
+          <p>Picnic Park, 6 s in (the demo autoplay drives). Goal counters top left, timer top (none on Level 1), pause top right, size ring and boosters at the bottom.</p>
+          <p class="dev">Capture <code>play</code><br>Code <code>App/App.Hud.cs</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="unlock">
+        <a class="pic" href="img/phone/unlock.webp" data-shot="unlock"><img loading="lazy" src="img/phone/unlock.webp" alt="New Booster!"></a>
+        <figcaption>
+          <h3><span class="num">12</span>New Booster!</h3>
+          <p>First time at the level a booster unlocks (Grow at 2, Magnet at 3, +15s at 4): 3 free.</p>
+          <p class="dev">Capture <code>unlock</code><br>Code <code>App/App.Level.cs MaybeUnlock</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="play2">
+        <a class="pic" href="img/phone/play2.webp" data-shot="play2"><img loading="lazy" src="img/phone/play2.webp" alt="Booster tutorial: Grow"></a>
+        <figcaption>
+          <h3><span class="num">13</span>Booster tutorial: Grow</h3>
+          <p>Right after New Booster! on Level 2: the level freezes and points at the new booster; the first use is free.</p>
+          <p class="dev">Capture <code>play2</code><br>Code <code>App/App.Tutorial.cs BoosterTutorial</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="play3">
+        <a class="pic" href="img/phone/play3.webp" data-shot="play3"><img loading="lazy" src="img/phone/play3.webp" alt="Booster tutorial: Magnet"></a>
+        <figcaption>
+          <h3><span class="num">14</span>Booster tutorial: Magnet</h3>
+          <p>The same on Level 3, for Magnet.</p>
+          <p class="dev">Capture <code>play3</code><br>Code <code>App/App.Tutorial.cs BoosterTutorial</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="buybooster">
+        <a class="pic" href="img/phone/buybooster.webp" data-shot="buybooster"><img loading="lazy" src="img/phone/buybooster.webp" alt="Buy a booster during play"></a>
+        <figcaption>
+          <h3><span class="num">15</span>Buy a booster during play</h3>
+          <p>Tap a booster with none left: 3 for 150 coins. The level waits while it is open.</p>
+          <p class="dev">Capture <code>buybooster</code><br>Code <code>UI/Screens/Screens.cs OpenBuyBooster</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="pause">
+        <a class="pic" href="img/phone/pause.webp" data-shot="pause"><img loading="lazy" src="img/phone/pause.webp" alt="Paused"></a>
+        <figcaption>
+          <h3><span class="num">16</span>Paused</h3>
+          <p>Pause button, top right.</p>
+          <p class="dev">Capture <code>pause</code><br>Code <code>App/App.End.cs OpenPause</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="quit">
+        <a class="pic" href="img/phone/quit.webp" data-shot="quit"><img loading="lazy" src="img/phone/quit.webp" alt="Quit level?"></a>
+        <figcaption>
+          <h3><span class="num">17</span>Quit level?</h3>
+          <p>Paused &gt; Quit Level. Quitting costs a life.</p>
+          <p class="dev">Capture <code>quit</code><br>Code <code>App/App.End.cs OpenPause</code></p>
+        </figcaption>
+      </figure>
+      </div>
+    </section>
+    <section id="g4">
+      <h2>End of a level</h2>
+      <div class="grid">
+      <figure class="card" id="win">
+        <a class="pic" href="img/phone/win.webp" data-shot="win"><img loading="lazy" src="img/phone/win.webp" alt="Last goal picked up"></a>
+        <figcaption>
+          <h3><span class="num">18</span>Last goal picked up</h3>
+          <p>The moment the last goal item is collected, before the results.</p>
+          <p class="dev">Capture <code>win</code><br>Code <code>App/App.End.cs</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="complete">
+        <a class="pic" href="img/phone/complete.webp" data-shot="complete"><img loading="lazy" src="img/phone/complete.webp" alt="Level Complete"></a>
+        <figcaption>
+          <h3><span class="num">19</span>Level Complete</h3>
+          <p>Stars by time left (3 at 40% or more, 2 at 15% or more, else 1; 1 after buying more time; untimed levels give 3). Claim x3 plays an ad; the plain Claim link shows after 2.6 s.</p>
+          <p class="dev">Capture <code>complete</code><br>Code <code>App/App.End.cs StarsFor, ShowWinPanel</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="timeup">
+        <a class="pic" href="img/phone/timeup.webp" data-shot="timeup"><img loading="lazy" src="img/phone/timeup.webp" alt="Out of time!"></a>
+        <figcaption>
+          <h3><span class="num">20</span>Out of time!</h3>
+          <p>The clock reaches 0:00 with goals left: +15 s for 100 coins (200 after the first time in a level), or +15 s for an ad once per level.</p>
+          <p class="dev">Capture <code>timeup</code><br>Code <code>App/App.End.cs OnTimeUp</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="lost">
+        <a class="pic" href="img/phone/lost.webp" data-shot="lost"><img loading="lazy" src="img/phone/lost.webp" alt="Level Failed"></a>
+        <figcaption>
+          <h3><span class="num">21</span>Level Failed</h3>
+          <p>Closing Out of time! costs a life. Try Again, or Home (only Home when no lives are left).</p>
+          <p class="dev">Capture <code>lost</code><br>Code <code>App/App.End.cs LevelFailed</code></p>
+        </figcaption>
+      </figure>
+      </div>
+    </section>
+    <section id="g5">
+      <h2>Home popups</h2>
+      <div class="grid">
+      <figure class="card" id="daily">
+        <a class="pic" href="img/phone/daily.webp" data-shot="daily"><img loading="lazy" src="img/phone/daily.webp" alt="Daily Reward"></a>
+        <figcaption>
+          <h3><span class="num">22</span>Daily Reward</h3>
+          <p>Home &gt; Daily. Seven days of rewards.</p>
+          <p class="dev">Capture <code>daily</code><br>Code <code>UI/Screens/Screens.cs OpenDaily</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="event">
+        <a class="pic" href="img/phone/event.webp" data-shot="event"><img loading="lazy" src="img/phone/event.webp" alt="Star Rush event"></a>
+        <figcaption>
+          <h3><span class="num">23</span>Star Rush event</h3>
+          <p>Home &gt; Event. Prizes for stars won during the event.</p>
+          <p class="dev">Capture <code>event</code><br>Code <code>UI/Screens/Screens.cs OpenEvent</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="gift">
+        <a class="pic" href="img/phone/gift.webp" data-shot="gift"><img loading="lazy" src="img/phone/gift.webp" alt="Free Coins"></a>
+        <figcaption>
+          <h3><span class="num">24</span>Free Coins</h3>
+          <p>Home &gt; Free when the gift is ready: an ad for 50 coins.</p>
+          <p class="dev">Capture <code>gift</code><br>Code <code>UI/Screens/Screens.cs OpenGift</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="hearts">
+        <a class="pic" href="img/phone/hearts.webp" data-shot="hearts"><img loading="lazy" src="img/phone/hearts.webp" alt="Lives (full)"></a>
+        <figcaption>
+          <h3><span class="num">25</span>Lives (full)</h3>
+          <p>Tap the lives counter with all 5 lives.</p>
+          <p class="dev">Capture <code>hearts</code><br>Code <code>UI/Screens/Screens.cs OpenHearts</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="lives">
+        <a class="pic" href="img/phone/lives.webp" data-shot="lives"><img loading="lazy" src="img/phone/lives.webp" alt="Lives (not full)"></a>
+        <figcaption>
+          <h3><span class="num">26</span>Lives (not full)</h3>
+          <p>Tap the lives counter with lives missing: refill for 300 coins, or +1 life for an ad. One life comes back every 20 minutes.</p>
+          <p class="dev">Capture <code>lives</code><br>Code <code>UI/Screens/Screens.cs OpenHearts, App/Save.cs HEART_MS</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="chestinfo">
+        <a class="pic" href="img/phone/chestinfo.webp" data-shot="chestinfo"><img loading="lazy" src="img/phone/chestinfo.webp" alt="Star Chest info"></a>
+        <figcaption>
+          <h3><span class="num">27</span>Star Chest info</h3>
+          <p>Tap the star bar at the top: 6 stars open a chest.</p>
+          <p class="dev">Capture <code>chestinfo</code><br>Code <code>UI/Screens/Screens.cs OpenChestInfo, App/Save.cs CHEST_STARS</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="chest">
+        <a class="pic" href="img/phone/chest.webp" data-shot="chest"><img loading="lazy" src="img/phone/chest.webp" alt="Star Chest opening"></a>
+        <figcaption>
+          <h3><span class="num">28</span>Star Chest opening</h3>
+          <p>Back home once the star bar is full.</p>
+          <p class="dev">Capture <code>chest</code><br>Code <code>UI/Screens/Screens.cs OpenChest</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="settings">
+        <a class="pic" href="img/phone/settings.webp" data-shot="settings"><img loading="lazy" src="img/phone/settings.webp" alt="Settings"></a>
+        <figcaption>
+          <h3><span class="num">29</span>Settings</h3>
+          <p>Gear, top right. Sound toggles, roll speed (a demo tuning slider), home scene.</p>
+          <p class="dev">Capture <code>settings</code><br>Code <code>UI/Screens/Screens.cs OpenSettings</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="reset">
+        <a class="pic" href="img/phone/reset.webp" data-shot="reset"><img loading="lazy" src="img/phone/reset.webp" alt="Reset?"></a>
+        <figcaption>
+          <h3><span class="num">30</span>Reset?</h3>
+          <p>Settings &gt; Reset Progress.</p>
+          <p class="dev">Capture <code>reset</code><br>Code <code>UI/Screens/Screens.cs OpenSettings</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="ad">
+        <a class="pic" href="img/phone/ad.webp" data-shot="ad"><img loading="lazy" src="img/phone/ad.webp" alt="Ad placeholder"></a>
+        <figcaption>
+          <h3><span class="num">31</span>Ad placeholder</h3>
+          <p>Every video button. The demo shows a 3 s black screen instead of an ad.</p>
+          <p class="dev">Capture <code>ad</code><br>Code <code>UI/Screens/PUi.cs FakeAd</code></p>
+        </figcaption>
+      </figure>
+      </div>
+    </section>
+    <section id="g6">
+      <h2>Pages (bottom bar)</h2>
+      <div class="grid">
+      <figure class="card" id="shop">
+        <a class="pic" href="img/phone/shop.webp" data-shot="shop"><img loading="lazy" src="img/phone/shop.webp" alt="Shop (top)"></a>
+        <figcaption>
+          <h3><span class="num">32</span>Shop (top)</h3>
+          <p>Bottom bar &gt; Shop, or tap the coin counter. Prices are mock-ups; buying with real money is off in the demo.</p>
+          <p class="dev">Capture <code>shop</code><br>Code <code>UI/Screens/Screens.cs ShopSheet</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="shop2">
+        <a class="pic" href="img/phone/shop2.webp" data-shot="shop2"><img loading="lazy" src="img/phone/shop2.webp" alt="Shop (middle)"></a>
+        <figcaption>
+          <h3><span class="num">33</span>Shop (middle)</h3>
+          <p>Scrolled halfway.</p>
+          <p class="dev">Capture <code>shop2</code><br>Code <code>UI/Screens/Screens.cs ShopSheet</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="shop3">
+        <a class="pic" href="img/phone/shop3.webp" data-shot="shop3"><img loading="lazy" src="img/phone/shop3.webp" alt="Shop (end)"></a>
+        <figcaption>
+          <h3><span class="num">34</span>Shop (end)</h3>
+          <p>Scrolled to the end.</p>
+          <p class="dev">Capture <code>shop3</code><br>Code <code>UI/Screens/Screens.cs ShopSheet</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="album">
+        <a class="pic" href="img/phone/album.webp" data-shot="album"><img loading="lazy" src="img/phone/album.webp" alt="Album (top)"></a>
+        <figcaption>
+          <h3><span class="num">35</span>Album (top)</h3>
+          <p>Bottom bar &gt; Album, at Level 3. Items not found yet show as silhouettes.</p>
+          <p class="dev">Capture <code>album</code><br>Code <code>UI/Screens/Screens.cs AlbumSheet</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="album2">
+        <a class="pic" href="img/phone/album2.webp" data-shot="album2"><img loading="lazy" src="img/phone/album2.webp" alt="Album (middle)"></a>
+        <figcaption>
+          <h3><span class="num">36</span>Album (middle)</h3>
+          <p>Scrolled halfway.</p>
+          <p class="dev">Capture <code>album2</code><br>Code <code>UI/Screens/Screens.cs AlbumSheet</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="album3">
+        <a class="pic" href="img/phone/album3.webp" data-shot="album3"><img loading="lazy" src="img/phone/album3.webp" alt="Album (end)"></a>
+        <figcaption>
+          <h3><span class="num">37</span>Album (end)</h3>
+          <p>Scrolled to the end.</p>
+          <p class="dev">Capture <code>album3</code><br>Code <code>UI/Screens/Screens.cs AlbumSheet</code></p>
+        </figcaption>
+      </figure>
+      <figure class="card" id="skins">
+        <a class="pic" href="img/phone/skins.webp" data-shot="skins"><img loading="lazy" src="img/phone/skins.webp" alt="Skins"></a>
+        <figcaption>
+          <h3><span class="num">38</span>Skins</h3>
+          <p>Home &gt; Skins. Ball skins to buy with coins.</p>
+          <p class="dev">Capture <code>skins</code><br>Code <code>UI/Screens/Screens.cs SkinsSheet</code></p>
+        </figcaption>
+      </figure>
+      </div>
+    </section>
+</main>
+<footer>
+  Tap a picture to see it full size. "Capture" is the state name the screenshot tool and the Unity Editor's
+  Roll A Planet &gt; Play From window use; "Code" is under Assets/Scripts/Game in the Unity project.
+</footer>
+<div id="view"><img alt=""></div>
+<script>
+  const view = document.getElementById('view'), big = view.querySelector('img');
+  let dev = 'phone';
+  document.querySelectorAll('.seg button').forEach(b => b.onclick = () => {
+    dev = b.dataset.dev;
+    document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b));
+    document.body.classList.toggle('desktop', dev === 'desktop');
+    document.querySelectorAll('.pic').forEach(a => {
+      const src = 'img/' + dev + '/' + a.dataset.shot + '.webp';
+      a.href = src; a.querySelector('img').src = src;
+    });
+  });
+  document.querySelectorAll('.pic').forEach(a => a.onclick = e => {
+    e.preventDefault(); big.src = a.href; view.classList.add('on');
+  });
+  view.onclick = () => view.classList.remove('on');
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') view.classList.remove('on'); });
+</script>
+</body>
+</html>
