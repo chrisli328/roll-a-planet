@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Roll A Planet: every UI screen</title>
 <style>
-  :root { --ink: #2a1a5e; --bg: #f4f1ff; --card: #fff; --muted: #6b6390; --accent: #6a3ae0; }
+  :root { color-scheme: dark; --ink: #ece8ff; --bg: #120e24; --card: #1e1838; --line: #342b5c; --muted: #a49cc8;
+           --accent: #7351ee; --accent-ink: #b9a6ff; }
   * { box-sizing: border-box; }
+  html { background: var(--bg); }
   body { margin: 0; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
   header { padding: 28px 20px 12px; max-width: 1400px; margin: 0 auto; }
   h1 { margin: 0 0 6px; font-size: 26px; }
@@ -14,37 +16,38 @@
   .meta { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
   .links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
   .btn { display: inline-block; padding: 9px 16px; border-radius: 10px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; }
-  .btn.ghost { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
-  .bar { position: sticky; top: 0; z-index: 5; background: rgba(244,241,255,.95); backdrop-filter: blur(6px); border-bottom: 1px solid #ddd6f5; }
+  .btn.ghost { background: transparent; color: var(--accent-ink); border: 2px solid var(--accent-ink); padding: 7px 14px; }
+  .bar { position: sticky; top: 0; z-index: 5; background: rgba(18,14,36,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
   .bar > div { max-width: 1400px; margin: 0 auto; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
   .bar nav { display: flex; flex-wrap: wrap; gap: 6px; }
-  .bar nav a { padding: 5px 11px; border-radius: 999px; background: #fff; color: var(--ink); text-decoration: none; font-size: 13px; border: 1px solid #ddd6f5; }
-  .seg { display: inline-flex; border: 2px solid var(--accent); border-radius: 10px; overflow: hidden; margin-left: auto; }
-  .seg button { border: 0; padding: 6px 14px; font: inherit; font-weight: 600; background: #fff; color: var(--accent); cursor: pointer; }
+  .bar nav a { padding: 5px 11px; border-radius: 999px; background: var(--card); color: var(--ink); text-decoration: none; font-size: 13px; border: 1px solid var(--line); }
+  .seg { display: inline-flex; border: 2px solid var(--accent-ink); border-radius: 10px; overflow: hidden; margin-left: auto; }
+  .seg button { border: 0; padding: 6px 14px; font: inherit; font-weight: 600; background: transparent; color: var(--accent-ink); cursor: pointer; }
   .seg button.on { background: var(--accent); color: #fff; }
   main { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px; }
   h2 { margin: 28px 0 12px; font-size: 20px; scroll-margin-top: 70px; }
   section { scroll-margin-top: 60px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
   body.desktop .grid { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
-  .card { margin: 0; background: var(--card); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(42,26,94,.08); display: flex; flex-direction: column; }
-  .pic { display: block; background: #1d1440; }
+  .card { margin: 0; background: var(--card); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); display: flex; flex-direction: column; }
+  .pic { display: block; background: #0b0818; }
   .pic img { display: block; width: 100%; aspect-ratio: 390 / 844; object-fit: contain; }
   body.desktop .pic img { aspect-ratio: 1280 / 800; }
   figcaption { padding: 10px 12px 12px; }
   h3 { margin: 0 0 4px; font-size: 16px; display: flex; gap: 8px; align-items: baseline; }
-  .num { flex: none; min-width: 24px; padding: 0 6px; border-radius: 6px; background: #ece6ff; color: var(--accent); font-size: 12px; text-align: center; }
+  .num { flex: none; min-width: 24px; padding: 0 6px; border-radius: 6px; background: #2e2560; color: var(--accent-ink); font-size: 12px; text-align: center; }
   figcaption p { margin: 0 0 6px; }
   .dev { color: var(--muted); font-size: 12px; }
-  code { font: 12px ui-monospace, Menlo, monospace; background: #f1eefb; padding: 1px 4px; border-radius: 4px; }
+  code { font: 12px ui-monospace, Menlo, monospace; background: #2a2348; color: #d9d2ff; padding: 1px 4px; border-radius: 4px; }
   footer { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px; color: var(--muted); font-size: 13px; }
-  #view { position: fixed; inset: 0; z-index: 10; background: rgba(15,8,45,.92); display: none; align-items: center; justify-content: center; padding: 16px; cursor: zoom-out; }
+  #view { position: fixed; inset: 0; z-index: 10; background: rgba(5,3,15,.94); display: none; align-items: center; justify-content: center; padding: 16px; cursor: zoom-out; }
   #view.on { display: flex; }
   #view img { max-width: 100%; max-height: 100%; border-radius: 8px; }
   @media (max-width: 600px) {
     .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } body.desktop .grid { grid-template-columns: 1fr; } .dev { display: none; }
     .bar > div { flex-wrap: nowrap; padding: 8px 12px; gap: 8px; }
-    .bar nav { flex-wrap: nowrap; overflow-x: auto; min-width: 0; flex: 1; scrollbar-width: none; }
+    .bar nav { flex-wrap: nowrap; overflow-x: auto; min-width: 0; flex: 1; scrollbar-width: none;
+               -webkit-mask-image: linear-gradient(to right, #000 80%, transparent); mask-image: linear-gradient(to right, #000 80%, transparent); }
     .bar nav a { white-space: nowrap; }
     .seg button { padding: 5px 9px; font-size: 13px; }
     header { padding: 20px 14px 8px; } main { padding: 0 12px 32px; } h1 { font-size: 22px; }
@@ -55,7 +58,7 @@
 <header>
   <h1>Roll A Planet: every UI screen</h1>
   <p class="lead">Every screen and popup in the current Unity build, captured from the game itself on a phone (390 x 844) and in a desktop browser window (1280 x 800). Rebuild this page after any UI change with tools/ui-pages/make.sh.</p>
-  <p class="meta">38 screens, from Unity project commit de3e819 (2026-11-18). Page made 2026-11-18 05:12.</p>
+  <p class="meta">38 screens, from Unity project commit 69c4159 (2026-11-18). Page made 2026-11-18 05:31.</p>
   <div class="links"><a class="btn" href="../">Play the latest build</a><a class="btn ghost" href="../html/">Original HTML prototype</a></div>
 </header>
 <div class="bar"><div>
